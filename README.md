@@ -41,7 +41,7 @@ docker run -it --rm \
   --entrypoint='' \
   --add-host=ldap.example.org:${ldap_server_ip} \
   capecodes/openldap-testing \
-  ldapwhoami -D 'cn=someguy,dc=example,dc=org' -w password -H 'ldaps://ldap.example.org' -v
+  ldapwhoami -D 'cn=someguy,dc=example,dc=org' -w password -H 'ldap://ldap.example.org' -v -Z
 
 # bind the 'cn=admin,dc=example,dc=org' user using TLS
 docker run -it --rm \
@@ -65,5 +65,5 @@ docker run -it --rm \
   --entrypoint='' \
   --add-host=ldap.example.org:${ldap_server_ip} \
   capecodes/openldap-testing \
-  ldapwhoami -D 'cn=someguy,dc=example,dc=org' -w password -H 'ldap://ldap.example.org' -v -Z
+  ldapwhoami -D 'cn=someguy,dc=example,dc=org' -w password -H 'ldaps://ldap.example.org' -v
 ```
