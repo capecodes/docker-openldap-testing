@@ -1,0 +1,26 @@
+dn: ou=People,dc=example,dc=org
+changetype: add
+objectClass: organizationalUnit
+ou: People
+
+dn: cn=someguy1,ou=People,dc=example,dc=org
+changetype: add
+cn: someguy1
+objectClass: simpleSecurityObject
+objectClass: organizationalRole
+objectClass: extensibleObject
+userPassword: {SSHA}FzCgDWoppolmOqMoI3UKuBtQsiC8Ma57
+description: The someguy1 user
+mail: someguy1@example.org
+name: Some Guy 1
+
+dn: cn=someguy2,ou=People,dc=example,dc=org
+changetype: add
+cn: someguy2
+objectClass: simpleSecurityObject
+objectClass: organizationalRole
+objectClass: extensibleObject
+userPassword: {SSHA}FzCgDWoppolmOqMoI3UKuBtQsiC8Ma57
+description: The someguy2 user
+mail: someguy2@example.org
+name: Some Guy 2

@@ -1,7 +1,0 @@
-dn: cn=someguy,dc=example,dc=org
-changetype: add
-cn: readonly
-objectClass: simpleSecurityObject
-objectClass: organizationalRole
-userPassword: {SSHA}FzCgDWoppolmOqMoI3UKuBtQsiC8Ma57
-description: LDAP read only user
