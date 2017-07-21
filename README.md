@@ -35,13 +35,13 @@ docker run -it --rm \
   capecodes/openldap-testing \
   ldapwhoami -D 'cn=readonly,dc=example,dc=org' -w password -H 'ldap://ldap.example.org' -v -Z
 
-# bind the 'cn=someguy,dc=example,dc=org' user using StartTLS
+# bind the 'cn=someguy1,ou=People,dc=example,dc=org' user using StartTLS
 docker run -it --rm \
   --net=ldap-testing \
   --entrypoint='' \
   --add-host=ldap.example.org:${ldap_server_ip} \
   capecodes/openldap-testing \
-  ldapwhoami -D 'cn=someguy,dc=example,dc=org' -w password -H 'ldap://ldap.example.org' -v -Z
+  ldapwhoami -D 'cn=someguy1,ou=People,dc=example,dc=org' -w password -H 'ldap://ldap.example.org' -v -Z
 
 # bind the 'cn=admin,dc=example,dc=org' user using TLS
 docker run -it --rm \
@@ -59,13 +59,32 @@ docker run -it --rm \
   capecodes/openldap-testing \
   ldapwhoami -D 'cn=readonly,dc=example,dc=org' -w password -H 'ldaps://ldap.example.org' -v
 
-# bind the 'cn=someguy,dc=example,dc=org' user using TLS
+# bind the 'cn=someguy1,ou=People,dc=example,dc=org' user using TLS
 docker run -it --rm \
   --net=ldap-testing \
   --entrypoint='' \
   --add-host=ldap.example.org:${ldap_server_ip} \
   capecodes/openldap-testing \
-  ldapwhoami -D 'cn=someguy,dc=example,dc=org' -w password -H 'ldaps://ldap.example.org' -v
+  ldapwhoami -D 'cn=someguy1,ou=People,dc=example,dc=org' -w password -H 'ldaps://ldap.example.org' -v
+```
+
+### Search
+
+```bash
+
+# extract the Docker network IP for the OpenLDAP testing server, this is necessary as we'll need to use it
+# in an --add-host for DNS 'ldap.example.org', which is the CN on the testing server certificate. This is
+# because the ldap tools (ldapwhoami, ldapsearch etc) do TLS certificate host name verification
+
+ldap_server_ip=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' openldap-testing)
+
+docker run -it --rm \
+  --net=ldap-testing \
+  --entrypoint='' \
+  --add-host=ldap.example.org:${ldap_server_ip} \
+  -v $(pwd)/data.ldif:/data.ldif \
+  capecodes/openldap-testing \
+  ldapsearch -D 'cn=admin,dc=example,dc=org' -w password -H 'ldap://ldap.example.org' -v -Z -c -b 'dc=example,dc=org' '*'
 ```
 
 ### Load LDIFs
